@@ -60,17 +60,61 @@ pip install -r requirements.txt
 ## Configuration
 The application uses two configuration files:
 
-1. `config.json` - Contains non-sensitive configuration
-2. `secrets.json` - Contains sensitive credentials (keep this file private)
+1. `config.json` - Non-sensitive settings
+2. `secrets.json` - Sensitive credentials (keep private)
 
 ### Setup Steps:
-1. Copy the example files:
+1. Copy example files:
 ```bash
 cp config.example.json config.json
 cp secrets.example.json secrets.json
 ```
 
-2. Update `config.json` with your non-sensitive settings.
+2. Update `config.json` with your settings:
+```json
+{
+  "messengers": {
+    "telegram": {
+      "default_prompt": "Your default prompt",
+      "chats": [
+        {
+          "chat_id": -10000000000,
+          "prompt_override": "Chat-specific prompt"
+        }
+      ]
+    },
+    "viber": {
+      "default_prompt": "Viber default prompt"
+    }
+  },
+  "schedule": {
+    "interval_minutes": 30
+  },
+  "reminders": {
+    "enabled": false,
+    "calendar_id": "your_calendar_id"
+  }
+}
+```
+
+3. Update `secrets.json` with your credentials:
+```json
+{
+  "gemini_api_key": "your_gemini_api_key",
+  "telegram": {
+    "api_id": "your_api_id",
+    "api_hash": "your_api_hash",
+    "bot_token": "your_bot_token",
+    "bot_owner_id": "your_bot_owner_id"
+  },
+  "viber": {
+    "api_key": "your_viber_api_key"
+  },
+  "reminders": {
+    "service_account_json": "path/to/service_account.json"
+  }
+}
+```
 
 3. Update `secrets.json` with your sensitive credentials.
 

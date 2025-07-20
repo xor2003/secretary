@@ -1,22 +1,23 @@
 {
-  "messengers": [
-    {
-      "type": "telegram",
-      "config": {
-        "chat_ids": ["@group1", "@group2"]
-      },
-      "prompts": {
-        "@group1": "Summarize as news.",
-        "@group2": "Highlight key decisions."
-      }
+  "messengers": {
+    "telegram": {
+      "default_prompt": "Summarize unread messages",
+      "chats": [
+        {
+          "chat_id": -1001234567890,
+          "prompt_override": "Summarize focusing on project updates"
+        }
+      ]
     },
-  ],
-  "reminder": {
-    "type": "google_calendar",
-    "config": {
-      "service_account_path": "credentials.json",
-      "calendar_id": "primary"
+    "viber": {
+      "default_prompt": "Summarize Viber messages"
     }
   },
-  "general_prompt": "Summarize these messages in a human-friendly format."
+  "schedule": {
+    "interval_minutes": 30
+  },
+  "reminders": {
+    "enabled": false,
+    "calendar_id": "primary"
+  }
 }
