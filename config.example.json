@@ -8,9 +8,6 @@
           "prompt_override": "Summarize focusing on project updates"
         }
       ]
-    },
-    "viber": {
-      "default_prompt": "Summarize Viber messages"
     }
   },
   "schedule": {

@@ -7,7 +7,10 @@ from ..interfaces import Messenger
 class TelegramConnector(Messenger):
     def __init__(self, cfg):
         self.client = TelegramClient("session.session", cfg["api_id"], cfg["api_hash"])
-        self.chats = [c["chat_id"] for c in cfg["chats"]]
+        self.chats = [c["chat_id"] for c in cfg.get("chats", [])]
+        self.chat_groups = cfg.get("chat_groups", {})
+        for group in self.chat_groups.values():
+            self.chats.extend(group)
         self.bot_owner_id = cfg["bot_owner_id"]
 
     async def start(self):

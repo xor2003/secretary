@@ -49,11 +49,20 @@ class App:
         self.prompts = {}
 
         # Load prompts for messengers
-        for name, messenger in self.cfg["messengers"].items():
-            for chat in messenger.get("chats", []):
-                default_prompt = messenger.get("default_prompt", "")
-                custom_prompt = chat.get("prompt_override", "")
-                self.prompts[chat["chat_id"]] = f"{default_prompt}\n{custom_prompt}".strip()
+        for name, messenger_cfg in self.cfg["messengers"].items():
+            if name == "telegram":
+                default_prompt = messenger_cfg.get("default_prompt", "")
+                for chat_id in self.telegram.chats:
+                    self.prompts[chat_id] = default_prompt
+                for chat_cfg in messenger_cfg.get("chats", []):
+                    custom_prompt = chat_cfg.get("prompt_override", "")
+                    if custom_prompt:
+                        self.prompts[chat_cfg["chat_id"]] = (
+                            f"{default_prompt}\n{custom_prompt}".strip()
+                        )
+                for group, chat_ids in messenger_cfg.get("chat_groups", {}).items():
+                    for chat_id in chat_ids:
+                        self.prompts[chat_id] = default_prompt
 
         # Load prompts for emails
         if "emails" in self.cfg:
