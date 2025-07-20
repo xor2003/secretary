@@ -1,4 +1,8 @@
-from telegram_agent import App
+#!/usr/bin/env python3
+import asyncio
+
+from telegram_agent.app import App
 
 if __name__ == "__main__":
-    App("config.json", "secrets.json").run()
+    app = App("config.json", "secrets.json")
+    asyncio.run(app.run())

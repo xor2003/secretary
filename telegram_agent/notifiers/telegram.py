@@ -1,10 +1,12 @@
 from telegram import Bot
-from interfaces import Notifier
+
+from ..interfaces import Notifier
+
 
 class TelegramNotifier(Notifier):
-    def __init__(self, token, chat_id):
+    def __init__(self, token, owner_id):
         self.bot = Bot(token=token)
-        self.chat_id = chat_id
+        self.owner_id = owner_id
 
-    def notify(self, text):
-        self.bot.send_message(chat_id=self.chat_id, text=text)
+    async def notify(self, text):
+        await self.bot.send_message(chat_id=self.owner_id, text=text)
