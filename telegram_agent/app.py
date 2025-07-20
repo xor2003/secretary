@@ -1,4 +1,4 @@
-"""Modular Messenger Summarizer App with Viber, Telegram, Google Calendar and IMAP Support"""
+"""Modular Messenger Summarizer App with Telegram, Google Calendar and IMAP Support"""
 
 import asyncio
 import json
@@ -34,13 +34,6 @@ class App:
                 tg_cfg["bot_token"], tg_cfg["bot_owner_id"],
             )
             self.messengers.append(self.telegram)
-
-        if "viber" in self.cfg["messengers"]:
-            vb_cfg = self.cfg["messengers"]["viber"]
-            from .connectors.viber import ViberConnector
-
-            self.viber = ViberConnector(vb_cfg)
-            self.messengers.append(self.viber)
 
         # Initialize email connectors
         if "emails" in self.cfg:
@@ -84,7 +77,7 @@ class App:
             emails = await email_conn.fetch_unread_emails()
             for email in emails:
                 prompt = self.prompts.get("imap", "Summarize this email")
-                summary = self.analyzer.analyze([email["body"]], prompt)
+                summary = await self.analyzer.analyze([email["body"]], prompt)
                 await self.notifier.notify(
                     f"Email from {email['from']} (IMAP):\nSubject: {email['subject']}\nSummary: {summary}",
                 )
@@ -97,7 +90,7 @@ class App:
             unread = await messenger.fetch_unread()
             for chat_id, (msgs, max_id) in unread.items():
                 prompt = self.prompts.get(chat_id, "Summarize unread messages.")
-                summary = self.analyzer.analyze(msgs, prompt)
+                summary = await self.analyzer.analyze(msgs, prompt)
                 await self.notifier.notify(
                     f"Chat {chat_id} ({messenger.__class__.__name__}):\n{summary}",
                 )
