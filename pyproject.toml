@@ -1,0 +1,31 @@
+[project]
+name = "telegram-agent"
+version = "0.1.0"
+description = "Messenger summarization agent for Telegram and Viber"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Your Name", email = "your.email@example.com" }
+]
+dependencies = [
+    "telethon",
+    "google-generativeai",
+    "google-api-python-client",
+    "python-dotenv"
+]
+
+[build-system]
+requires = ["setuptools>=67.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 120
+select = ["E", "F", "W", "I", "B"]
+ignore = ["E501", "W503"]
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
+[tool.mypy]
+strict = true
+ignore_missing_imports = true
