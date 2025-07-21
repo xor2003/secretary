@@ -34,3 +34,10 @@ class TelegramConnector(Messenger):
             chat_id,
             max_id,
         )  # :contentReference[oaicite:1]{index=1}
+
+    async def get_dialogs(self):
+        await self.start()
+        dialogs = await self.client.get_dialogs()
+        for dialog in dialogs:
+            print(f"  - {dialog.name}")
+
